@@ -19,6 +19,11 @@ public class Usuario {
 	public Usuario(int id) {
 		this.id = id;
 	}
+	
+	public Usuario(int id, String contrasena) {
+		this.id = id;
+		this.contrasena = contrasena;
+	}
 
 	public Usuario(String dni, String nombre, String apellido, String user, String contrasena, int tipo,
 			boolean activo) {

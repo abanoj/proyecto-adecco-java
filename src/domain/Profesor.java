@@ -12,6 +12,11 @@ public class Profesor extends Usuario {
 		super(id);
 	}
 
+	public Profesor(int id, String contrasena) {
+		super(id, contrasena);
+	}
+
+	
 	public Profesor(String dni, String nombre, String apellido, String user, String contrasena, boolean activo) {
 		super(dni, nombre, apellido, user, contrasena, TIPO, activo);
 	}

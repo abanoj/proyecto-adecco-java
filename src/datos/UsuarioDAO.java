@@ -9,9 +9,9 @@ import domain.Usuario;
 public class UsuarioDAO {
 
 	private static final String SELECT_SQL = "SELECT * FROM proyecto.usuarios";
-	private static final String INSERT_SQL = "";
-	private static final String UPDATE_SQL = "";
-	private static final String DELETE_SQL = "";
+	private static final String INSERT_SQL = "INSERT INTO usuarios (`dni`, `nombre`, `apellido`, `usuario`, `contrasena`, `tipo`, `activo`) VALUES (?, ?, ?, ?, ?, ?, ?);";
+	private static final String UPDATE_PASS_SQL = "UPDATE usuarios SET `contrasena` = ? WHERE (`id` = ?);";
+	private static final String DELETE_SQL = "DELETE FROM usuarios WHERE (`id` = ?);";
 	
 	
 	public List<Usuario> select(){
@@ -55,7 +55,82 @@ public class UsuarioDAO {
 			
 		}
 		
-		
 		return usuarios;
+	}
+	
+	public void insert(Usuario usuario) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(INSERT_SQL);
+			ps.setString(1, usuario.getDni());
+			ps.setString(2, usuario.getNombre());
+			ps.setString(3, usuario.getApellido());
+			ps.setString(4, usuario.getUser());
+			ps.setString(5, usuario.getContrasena());
+			ps.setInt(6, usuario.getTipo());
+			ps.setBoolean(7, usuario.isActivo());
+
+			ps.execute();			
+			System.out.println("Insert Success!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void updatePassword(Usuario usuario) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(UPDATE_PASS_SQL);
+			ps.setString(1, usuario.getContrasena());
+			ps.setInt(2, usuario.getId());
+			
+			ps.execute();
+			System.out.println("Update Password Success!");			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+	}
+	
+	public void delete(Usuario usuario) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(DELETE_SQL);
+			ps.setInt(1, usuario.getId());
+			
+			ps.execute();
+			System.out.println("Delete User Success!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

@@ -8,17 +8,27 @@ import datos.UsuarioDAO;
 public class TestUsuario {
 
 	public static void main(String[] args) {
-//		List<Usuario> usuarios;
-//		UsuarioDAO usuarioDao = new UsuarioDAO();
-//		usuarios = usuarioDao.select();
-//		
-//		usuarios.forEach( el -> System.out.println(el));
+		List<Usuario> usuarios;
+		UsuarioDAO usuarioDao = new UsuarioDAO();
 		
-		Usuario alumno = new Alumno("00523821F", "Juan", "Perez", "juanperez", "123abc", true);
-		System.out.println(alumno);
+//		Usuario alumno = new Alumno("0012381S", "Maria", "Ramos", "mariar12", "a1b2c3", false);
+//		Usuario profesor = new Profesor("Y8180092G", "Pedro", "Estevez", "pedroes", "pGsg20$5", true);
 		
-		Usuario profesor = new Profesor("Y6168872G", "Rosa", "Perez", "rosapez", "prda20$5", true);
-		System.out.println(profesor);
+		//Insert
+//		usuarioDao.insert(alumno);
+//		usuarioDao.insert(profesor);
+		
+		//Update
+//		Usuario proferor = new Profesor(4, "otracontra123");
+//		usuarioDao.updatePassword(proferor);
+
+		//Delete
+//		Usuario usuario = new Usuario(4);
+//		usuarioDao.delete(usuario);
+		
+		usuarios = usuarioDao.select();
+		
+		usuarios.forEach( el -> System.out.println(el));
 	}
 
 }

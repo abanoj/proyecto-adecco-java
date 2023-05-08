@@ -12,6 +12,10 @@ public class Alumno extends Usuario{
 		super(id);
 	}
 
+	public Alumno(int id, String contrasena) {
+		super(id, contrasena);
+	}
+	
 	public Alumno(String dni, String nombre, String apellido, String user, String contrasena, boolean activo) {
 		super(dni, nombre, apellido, user, contrasena, TIPO, activo);
 	}
