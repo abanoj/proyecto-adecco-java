@@ -2,17 +2,17 @@ package domain;
 
 public class Usuario {
 
-	private int id;
-	private String dni;
-	private String nombre;
-	private String apellido;
-	private String user;
-	private String contrasena;
-	private String foto;
-	private String direccion;
-	private String telefono;
-	private int tipo;
-	private boolean activo;
+	protected int id;
+	protected String dni;
+	protected String nombre;
+	protected String apellido;
+	protected String user;
+	protected String contrasena;
+	protected String foto;
+	protected String direccion;
+	protected String telefono;
+	protected int tipoUsuario;
+	protected boolean activo;
 	
 	public Usuario() {}
 
@@ -27,7 +27,7 @@ public class Usuario {
 		this.apellido = apellido;
 		this.user = user;
 		this.contrasena = contrasena;
-		this.tipo = tipo;
+		this.tipoUsuario = tipo;
 		this.activo = activo;
 	}
 
@@ -40,7 +40,7 @@ public class Usuario {
 		this.apellido = apellido;
 		this.user = user;
 		this.contrasena = contrasena;
-		this.tipo = tipo;
+		this.tipoUsuario = tipo;
 		this.activo = activo;
 	}
 
@@ -55,7 +55,7 @@ public class Usuario {
 		this.foto = foto;
 		this.direccion = direccion;
 		this.telefono = telefono;
-		this.tipo = tipo;
+		this.tipoUsuario = tipo;
 		this.activo = activo;
 	}
 
@@ -132,11 +132,11 @@ public class Usuario {
 	}
 
 	public int getTipo() {
-		return tipo;
+		return tipoUsuario;
 	}
 
 	public void setTipo(int tipo) {
-		this.tipo = tipo;
+		this.tipoUsuario = tipo;
 	}
 
 	public boolean isActivo() {
@@ -149,9 +149,9 @@ public class Usuario {
 
 	@Override
 	public String toString() {
-		return "Usuario [id=" + id + ", dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", user="
+		return "[id=" + id + ", dni=" + dni + ", nombre=" + nombre + ", apellido=" + apellido + ", user="
 				+ user + ", contrasena=" + contrasena + ", direccion=" + direccion + ", telefono=" + telefono
-				+ ", tipo=" + tipo + ", activo=" + activo + "]";
+				+ ", tipo=" + tipoUsuario + ", activo=" + activo + "]";
 	}
 	
 	

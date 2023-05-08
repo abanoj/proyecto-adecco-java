@@ -33,12 +33,14 @@ public class UsuarioDAO {
 				String apellido = rs.getString("apellido");
 				String user = rs.getString("usuario");
 				String contrasena = rs.getString("contrasena");
-				int tipo = rs.getInt("tipo_usuario");
+				int tipo = rs.getInt("tipo");
 				boolean activo = rs.getBoolean("activo");
 				
 				usuario = new Usuario(id, dni, nombre, apellido, user, contrasena, tipo, activo);
 				usuarios.add(usuario);
 			}
+			
+			System.out.println("+====================Lista de usuarios====================+");
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
