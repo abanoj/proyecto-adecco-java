@@ -48,7 +48,7 @@ public class Asignatura {
 	}
 
 	public int getIdProfesor1() {
-		return idProfesor1;
+		return this.idProfesor1;
 	}
 
 	public void setIdProfesor1(int idProfesor1) {
@@ -56,7 +56,7 @@ public class Asignatura {
 	}
 
 	public int getIdProfesor2() {
-		return idProfesor2;
+		return this.idProfesor2;
 	}
 
 	public void setIdProfesor2(int idProfesor2) {

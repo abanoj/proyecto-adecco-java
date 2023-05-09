@@ -14,7 +14,7 @@ public class TestUsuario {
 //		
 //		usuarios.forEach(el -> System.out.println(el));
 //		
-		usuariosAleatorios(200);
+		//usuariosAleatorios(200);
 		
 //		Usuario alumno = new Alumno("0012381S", "Maria", "Ramos", "mariar12", "a1b2c3", false);
 //		Usuario profesor = new Profesor("Y8180092G", "Pedro", "Estevez", "pedroes", "pGsg20$5", true);
