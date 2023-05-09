@@ -8,8 +8,13 @@ import datos.UsuarioDAO;
 public class TestUsuario {
 
 	public static void main(String[] args) {
-		List<Usuario> usuarios;
-		UsuarioDAO usuarioDao = new UsuarioDAO();
+//		UsuarioDAO usuarioDao = new UsuarioDAO();
+//		
+//		List<Usuario> usuarios = usuarioDao.select();
+//		
+//		usuarios.forEach(el -> System.out.println(el));
+//		
+		usuariosAleatorios(200);
 		
 //		Usuario alumno = new Alumno("0012381S", "Maria", "Ramos", "mariar12", "a1b2c3", false);
 //		Usuario profesor = new Profesor("Y8180092G", "Pedro", "Estevez", "pedroes", "pGsg20$5", true);
@@ -33,14 +38,21 @@ public class TestUsuario {
 
 	public static void usuariosAleatorios(int n) {
 		Random random = new Random();
+		Usuario usuario = null;
+		UsuarioDAO usuarioDao = new UsuarioDAO();
+
 		for (int i = 0; i < n; i++) {
-			String DNI = generarDNI();
+			String dni = generarDNI();
 			String nombre = generarNombre();
 			String apellido = generarNombre();
-			String username = nombre.charAt(0) + apellido.toLowerCase();
-			String password = username.substring(0,2) + "$" + nombre.substring(0,2) + DNI.substring(0,3);
+			String username = nombre.toLowerCase().charAt(0) + apellido.toLowerCase();
+			
+			String password = generarPassword();
 			int tipo = random.nextInt(2) + 1;
 			boolean activo = random.nextBoolean();
+			
+			usuario = new Usuario(dni, nombre, apellido, username, password, tipo, activo);
+			usuarioDao.insert(usuario);
 		}
 		
 	}
@@ -84,4 +96,17 @@ public class TestUsuario {
 		char letra = letras.charAt(random.nextInt(letras.length()));
 		return sb.toString() + letra;
 	}
+	
+	public static String generarPassword() {
+		String caracteres = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$%&()*+,-./:;<=>?@[\\]^`{|}~";
+		Random random = new Random();
+		StringBuilder sb = new StringBuilder();
+		int longitud = random.nextInt(16) + 8;
+		for(int i = 0; i < longitud; i++) {
+			sb.append(caracteres.charAt(random.nextInt(caracteres.length())));
+		}
+		
+		return sb.toString();
+	}
+	
 }

@@ -8,9 +8,12 @@ import domain.Usuario;
 
 public class UsuarioDAO {
 
-	private static final String SELECT_SQL = "SELECT * FROM proyecto.usuarios";
+	private static final String SELECT_SQL = "SELECT * FROM usuarios";
+	private static final String SELECT_ID_SQL = "SELECT * FROM usuarios WHERE id = ?";
 	private static final String INSERT_SQL = "INSERT INTO usuarios (`dni`, `nombre`, `apellido`, `usuario`, `contrasena`, `tipo`, `activo`) VALUES (?, ?, ?, ?, ?, ?, ?);";
+	private static final String UPDATE_SQL = "UPDATE usuarios SET dni = ?, nombre = ?, apellido = ?, usuario = ?, contrasena = ?, tipo = ?, activo = ? WHERE id = ?";
 	private static final String UPDATE_PASS_SQL = "UPDATE usuarios SET `contrasena` = ? WHERE (`id` = ?);";
+	private static final String UPDATE_USER_SQL = "UPDATE usuarios SET `usuario` = ? WHERE (`id` = ?);";
 	private static final String DELETE_SQL = "DELETE FROM usuarios WHERE (`id` = ?);";
 	
 	
@@ -57,6 +60,51 @@ public class UsuarioDAO {
 		
 		return usuarios;
 	}
+
+	public Usuario select(int id){
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Usuario usuario = null;
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(SELECT_ID_SQL);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				String dni = rs.getString("dni");
+				String nombre = rs.getString("nombre");
+				String apellido = rs.getString("apellido");
+				String user = rs.getString("usuario");
+				String contrasena = rs.getString("contrasena");
+				int tipo = rs.getInt("tipo");
+				boolean activo = rs.getBoolean("activo");
+				
+				usuario = new Usuario(id, dni, nombre, apellido, user, contrasena, tipo, activo);
+//				System.out.println(usuario);
+			} else {
+				System.out.println("No se encontró usuario");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return usuario;
+	}
+	
+	
 	
 	public void insert(Usuario usuario) {
 		Connection conn = null;
@@ -86,6 +134,37 @@ public class UsuarioDAO {
 			}
 		}
 	}
+
+	public void update(Usuario usuario) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(UPDATE_SQL);
+			ps.setString(1, usuario.getDni());
+			ps.setString(2, usuario.getNombre());
+			ps.setString(3, usuario.getApellido());
+			ps.setString(4, usuario.getUser());
+			ps.setString(5, usuario.getContrasena());
+			ps.setInt(6, usuario.getTipo());
+			ps.setBoolean(7, usuario.isActivo());
+			ps.setInt(8, usuario.getId());
+			
+			ps.execute();
+			System.out.println("Update Usuario Success!");			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+	}
+	
 	
 	public void updatePassword(Usuario usuario) {
 		Connection conn = null;
@@ -110,6 +189,31 @@ public class UsuarioDAO {
 			}
 		}	
 	}
+
+	public void updateUsername(Usuario usuario) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(UPDATE_USER_SQL);
+			ps.setString(1, usuario.getUser());
+			ps.setInt(2, usuario.getId());
+			
+			ps.execute();
+			System.out.println("Update Username Success!");			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}	
+	}
+	
 	
 	public void delete(Usuario usuario) {
 		Connection conn = null;
