@@ -14,12 +14,21 @@ public class TestAsignatura {
 
 		//Insert
 //		Asignatura asignatura = new Asignatura("Educación Física", 49);
-//		System.out.println(asignatura.getIdProfesor2());
 //		asignaturaDao.insert(asignatura);
+
+		//Update
+//		Asignatura asignatura = asignaturaDao.select(18);
+//		asignatura.setIdProfesor1(399);
+//		asignaturaDao.update(asignatura);
+
+		//Delete
+//		Asignatura asignatura = new Asignatura(17);
+//		asignaturaDao.delete(asignatura);
 		
 		//Select
-		asignaturas = asignaturaDao.select();
-		asignaturas.forEach(el -> System.out.println(el));
+//		asignaturas = asignaturaDao.select();
+//		asignaturas.forEach(el -> System.out.println(el));
+		
 		
 	}
 

@@ -1,12 +1,12 @@
 package domain;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Curso {
 
 	private int id;
 	private String nombre;
-	private ArrayList<Integer> idA;
+	private List<Integer> idA;
 	
 	public Curso() {}
 
@@ -14,12 +14,18 @@ public class Curso {
 		this.id = id;
 	}
 
-	public Curso(String nombre, ArrayList<Integer> idA) {
+	public Curso(String nombre, List<Integer> idA) {
 		this.nombre = nombre;
 		this.idA = idA;
 	}
 
-	public Curso(int id, String nombre, ArrayList<Integer> idA) {
+	public Curso(String nombre, Integer ...idA) {
+		this.nombre = nombre;
+		this.idA = Arrays.asList(idA);
+	}
+	
+	
+	public Curso(int id, String nombre, List<Integer> idA) {
 		this.id = id;
 		this.nombre = nombre;
 		this.idA = idA;
@@ -41,11 +47,11 @@ public class Curso {
 		this.nombre = nombre;
 	}
 
-	public ArrayList<Integer> getIdA() {
+	public List<Integer> getIdA() {
 		return idA;
 	}
 
-	public void setIdA(ArrayList<Integer> idA) {
+	public void setIdA(List<Integer> idA) {
 		this.idA = idA;
 	}
 
