@@ -11,7 +11,9 @@ public class NotaDAO {
 	private static final String SQL_SELECT_ONE = "SELECT nota FROM notas WHERE id_alumno = ? AND id_asignatura = ? AND id_curso = ?";
 	private static final String SQL_SELECT_CURSO = "SELECT id_asignatura, nota FROM notas WHERE id_alumno = ? AND id_curso = ?;";
 	private static final String SQL_INSERT = "INSERT INTO notas(id_alumno, id_asignatura, id_curso, nota) VALUES(?, ?, ?, ?);";
-
+	private static final String SQL_UPDATE = "UPDATE notas SET id_alumno = ?, id_asignatura = ?, id_curso = ?, nota = ? WHERE id = ?;";
+	private static final String SQL_DELETE = "DELETE FROM notas WHERE id = ?";
+	
 	public Map<Integer, Float> select(int idAlumno, int idCurso) {
 		Connection conn = null;
 		PreparedStatement ps = null;
@@ -83,6 +85,84 @@ public class NotaDAO {
 	}
 	
 	public void insert(Nota nota) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(SQL_INSERT);
+			ps.setInt(1, nota.getIdAlumno());
+			ps.setInt(2, nota.getIdAsignatura());
+			ps.setInt(3, nota.getIdCurso());
+			ps.setFloat(4, nota.getNota());
+			
+			ps.execute();
+			System.out.println("Insert Nota Success!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Insert Nota Fail!");
+		} finally {
+			try {
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+	public void update(Nota nota) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(SQL_UPDATE);
+			ps.setInt(1, nota.getIdAlumno());
+			ps.setInt(2, nota.getIdAsignatura());
+			ps.setInt(3, nota.getIdCurso());
+			ps.setFloat(4, nota.getNota());
+			ps.setInt(5, nota.getId());
+			
+			ps.execute();
+			System.out.println("Update Nota Success!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Update Nota Fail!");
+		} finally {
+			try {
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
+	public void delete(Nota nota) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(SQL_DELETE);
+			ps.setInt(1, nota.getId());
+			
+			ps.execute();
+			System.out.println("Delete Nota Success!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Delete Nota Fail!");
+		} finally {
+			try {
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 		
 	}
 	
