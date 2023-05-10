@@ -14,6 +14,13 @@ public class Nota {
 		this.id = id;
 	}
 
+	public Nota(int idAlumno, int idAsignatura, int idCurso) {
+		this.idAlumno = idAlumno;
+		this.idAsignatura = idAsignatura;
+		this.idCurso = idCurso;
+	}
+	
+	
 	public Nota(int idAlumno, int idAsignatura, int idCurso, int nota) {
 		this.idAlumno = idAlumno;
 		this.idAsignatura = idAsignatura;

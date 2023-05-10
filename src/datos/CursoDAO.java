@@ -12,6 +12,9 @@ public class CursoDAO {
 	private static final String SELECT_ID_SQL = "SELECT * FROM cursos WHERE id = ?";
 	private static final String INSERT_SQL = "INSERT INTO cursos(nombre, id_a1, id_a2, id_a3, id_a4, id_a5, id_a6, id_a7, id_a8, id_a9, id_a10)"
 			+ "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+	private static final String UPDATE_SQL = "UPDATE cursos SET nombre = ?, id_a1 = ?, id_a2 = ?, id_a3 = ?, id_a4 = ?, id_a5 = ?, id_a6 = ?,"
+			+ "id_a7 = ?, id_a8 = ?, id_a9 = ?, id_a10 = ? WHERE id = ?";
+	private static final String DELETE_SQL = "DELETE FROM cursos WHERE id = ?";
 	
 	public ArrayList<Curso> select(){
 		Connection conn = null;
@@ -103,31 +106,102 @@ public class CursoDAO {
 		return curso;		
 	}
 	
-//	public void insert(Curso curso) {
-//		Connection conn = null;
-//		PreparedStatement ps = null;
-//		
-//		try {
-//			conn = Conexion.obtenerConexion();
-//			ps = conn.prepareStatement(INSERT_SQL);
-//			ps.setString(1, curso.getNombre());
-//			for(int i = 0; i <curso.getIdA().size(); i++) {
-//				ps.setInt(i+2, curso.getIdA().get(i));
-//			}
-//			ps.execute();
-//			System.out.println("Insert Curso Success!");
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//			System.out.println("Insert Curso Fail!");
-//		} finally {
-//			try {
-//				ps.close();
-//				conn.close();
-//			} catch (SQLException e) {
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+	public void insert(Curso curso) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(INSERT_SQL);
+			ps.setString(1, curso.getNombre());
+			
+			int cantAsig = curso.getIdA().size();
+			
+			for(int i = 0; i < cantAsig; i++) {
+				ps.setInt(i+2, curso.getIdA().get(i));
+			}
+			
+			if(cantAsig < 10) {
+				for (int i = cantAsig + 2; i <= 11; i++) {
+					ps.setNull(i, java.sql.Types.INTEGER);
+				}
+			}
+			
+			ps.execute();
+			System.out.println("Insert Curso Success!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Insert Curso Fail!");
+		} finally {
+			try {
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void update(Curso curso) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(UPDATE_SQL);
+			ps.setString(1, curso.getNombre());
+			
+			int cantAsig = curso.getIdA().size();
+			
+			for(int i = 0; i < cantAsig; i++) {
+				ps.setInt(i+2, curso.getIdA().get(i));
+			}
+			
+			if(cantAsig < 10) {
+				for (int i = cantAsig + 2; i <= 11; i++) {
+					ps.setNull(i, java.sql.Types.INTEGER);
+				}
+			}
+			ps.setInt(12, curso.getId());
+			
+			ps.execute();
+			System.out.println("Update Curso Success!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Update Curso Fail!");
+		} finally {
+			try {
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+
+	public void delete(Curso curso) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(DELETE_SQL);
+			ps.setInt(1, curso.getId());
+			
+			ps.execute();
+			System.out.println("Delete Curso Success!");
+		} catch (SQLException e) {
+			e.printStackTrace();
+			System.out.println("Delete Curso Fail!");
+		} finally {
+			try {
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 	
 	
 }

@@ -55,6 +55,11 @@ public class Curso {
 		this.idA = idA;
 	}
 
+	public void setIdA(Integer... idA) {
+		this.idA = Arrays.asList(idA);
+	}
+
+	
 	@Override
 	public String toString() {
 		return "Curso [id=" + id + ", nombre=" + nombre + ", idA=" + idA + "]";

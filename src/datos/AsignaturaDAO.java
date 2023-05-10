@@ -10,6 +10,7 @@ public class AsignaturaDAO {
 
 	private static final String SELECT_SQL = "SELECT * FROM asignaturas";
 	private static final String SELECT_ID_SQL = "SELECT * FROM asignaturas WHERE id = ?";
+	private static final String SELECT_NAME_SQL = "SELECT nombre FROM asignaturas WHERE id = ?";
 	private static final String INSERT_SQL = "INSERT INTO asignaturas (`nombre`, `id_profesor1`, `id_profesor2`) VALUES (?, ?, ?);";
 	private static final String UPDATE_SQL = "UPDATE asignaturas SET `nombre` = ?, `id_profesor1` = ?, `id_profesor2` = ? WHERE id = ?";
 	private static final String DELETE_SQL = "DELETE FROM asignaturas WHERE id = ?";
@@ -86,6 +87,39 @@ public class AsignaturaDAO {
 			
 		}
 		return asignatura;
+	}
+
+	public String selectName(int id){
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		String nombre = "";
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(SELECT_NAME_SQL);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				nombre = rs.getString("nombre");	
+			} else {
+				System.out.println("Asignatura no encontrada!");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		return nombre;
 	}
 	
 	
