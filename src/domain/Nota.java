@@ -6,7 +6,7 @@ public class Nota {
 	private int idAlumno;
 	private int idAsignatura;
 	private int idCurso;
-	private int nota;
+	private float nota;
 	
 	public Nota() {}
 
@@ -21,14 +21,14 @@ public class Nota {
 	}
 	
 	
-	public Nota(int idAlumno, int idAsignatura, int idCurso, int nota) {
+	public Nota(int idAlumno, int idAsignatura, int idCurso, float nota) {
 		this.idAlumno = idAlumno;
 		this.idAsignatura = idAsignatura;
 		this.idCurso = idCurso;
 		this.nota = nota;
 	}
 
-	public Nota(int id, int idAlumno, int idAsignatura, int idCurso, int nota) {
+	public Nota(int id, int idAlumno, int idAsignatura, int idCurso, float nota) {
 		this.id = id;
 		this.idAlumno = idAlumno;
 		this.idAsignatura = idAsignatura;
@@ -68,11 +68,11 @@ public class Nota {
 		this.idCurso = idCurso;
 	}
 
-	public int getNota() {
+	public float getNota() {
 		return nota;
 	}
 
-	public void setNota(int nota) {
+	public void setNota(float nota) {
 		this.nota = nota;
 	}
 

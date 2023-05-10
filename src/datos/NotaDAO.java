@@ -4,12 +4,14 @@ import java.sql.*;
 import java.util.*;
 
 import domain.Conexion;
+import domain.Curso;
 import domain.Nota;
 
 public class NotaDAO {
 
 	private static final String SQL_SELECT_ONE = "SELECT nota FROM notas WHERE id_alumno = ? AND id_asignatura = ? AND id_curso = ?";
-	private static final String SQL_SELECT_CURSO = "SELECT id_asignatura, nota FROM notas WHERE id_alumno = ? AND id_curso = ?;";
+	private static final String SQL_SELECT_AC = "SELECT id_asignatura, nota FROM notas WHERE id_alumno = ? AND id_curso = ?;";
+	private static final String SQL_SELECT_C = "SELECT id_alumno, id_asignatura, nota FROM notas WHERE id_curso = ?;";
 	private static final String SQL_INSERT = "INSERT INTO notas(id_alumno, id_asignatura, id_curso, nota) VALUES(?, ?, ?, ?);";
 	private static final String SQL_UPDATE = "UPDATE notas SET id_alumno = ?, id_asignatura = ?, id_curso = ?, nota = ? WHERE id = ?;";
 	private static final String SQL_DELETE = "DELETE FROM notas WHERE id = ?";
@@ -22,7 +24,7 @@ public class NotaDAO {
 		
 		try {
 			conn = Conexion.obtenerConexion();
-			ps = conn.prepareStatement(SQL_SELECT_CURSO);
+			ps = conn.prepareStatement(SQL_SELECT_AC);
 			ps.setInt(1, idAlumno);
 			ps.setInt(2, idCurso);
 
@@ -83,6 +85,45 @@ public class NotaDAO {
 		
 		return nota;
 	}
+
+	public List<Nota> select(Curso curso) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		List<Nota> notas = new ArrayList<>();
+		Nota nota = null;
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(SQL_SELECT_C);
+			ps.setInt(1, curso.getId());
+
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				int idU = rs.getInt("id_alumno");
+				int idA = rs.getInt("id_asignatura");
+				float n = rs.getFloat("nota");
+				nota = new Nota(idU, idA, curso.getId(), n);
+				
+				notas.add(nota);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}  finally {
+			try {
+				rs.close();
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return notas;
+	}
+	
 	
 	public void insert(Nota nota) {
 		Connection conn = null;
