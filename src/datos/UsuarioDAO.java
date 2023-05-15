@@ -9,7 +9,9 @@ import domain.Usuario;
 public class UsuarioDAO {
 
 	private static final String SELECT_SQL = "SELECT * FROM usuarios";
+	private static final String SELECT_PASS = "SELECT contrasena FROM usuarios WHERE usuario = ?";
 	private static final String SELECT_ID_SQL = "SELECT * FROM usuarios WHERE id = ?";
+	private static final String SELECT_USER = "SELECT * FROM usuarios WHERE usuario = ?";
 	private static final String INSERT_SQL = "INSERT INTO usuarios (`dni`, `nombre`, `apellido`, `usuario`, `contrasena`, `tipo`, `activo`) VALUES (?, ?, ?, ?, ?, ?, ?);";
 	private static final String UPDATE_SQL = "UPDATE usuarios SET dni = ?, nombre = ?, apellido = ?, usuario = ?, contrasena = ?, tipo = ?, activo = ? WHERE id = ?";
 	private static final String UPDATE_PASS_SQL = "UPDATE usuarios SET `contrasena` = ? WHERE (`id` = ?);";
@@ -104,6 +106,86 @@ public class UsuarioDAO {
 		return usuario;
 	}
 	
+	public Usuario select(String username){
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Usuario usuario = null;
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(SELECT_USER);
+			ps.setString(1, username);
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				int id = rs.getInt("id");
+				String dni = rs.getString("dni");
+				String nombre = rs.getString("nombre");
+				String apellido = rs.getString("apellido");
+				String contrasena = rs.getString("contrasena");
+				String foto = rs.getString("foto");
+				String direccion = rs.getString("direccion");
+				String telefono = rs.getString("telefono");
+				int tipo = rs.getInt("tipo");
+				boolean activo = rs.getBoolean("activo");
+				
+				usuario = new Usuario(id, dni, nombre, apellido, username, contrasena, foto, direccion, telefono, tipo, activo);
+//				System.out.println(usuario);
+			} else {
+				System.out.println("No se encontró usuario");
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return usuario;
+	}
+	
+
+	
+	public boolean loginUser(Usuario user) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		boolean isReal = false;
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(SELECT_PASS);
+			ps.setString(1, user.getUser());
+			
+			rs = ps.executeQuery();
+			
+			if(rs.next()) {
+				String pass = rs.getString("contrasena");
+				isReal = pass.equals(user.getContrasena());
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				rs.close();
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return isReal;
+	}
 	
 	
 	public void insert(Usuario usuario) {

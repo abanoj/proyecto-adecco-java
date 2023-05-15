@@ -24,6 +24,11 @@ public class Usuario {
 		this.id = id;
 		this.contrasena = contrasena;
 	}
+	
+	public Usuario(String user, String contrasena) {
+		this.user = user;
+		this.contrasena = contrasena;
+	}
 
 	public Usuario(String dni, String nombre, String apellido, String user, String contrasena, int tipo,
 			boolean activo) {

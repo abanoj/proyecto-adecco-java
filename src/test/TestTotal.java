@@ -2,15 +2,16 @@ package test;
 
 import java.util.*;
 
+import com.mysql.cj.log.Log;
+
 import domain.*;
 import datos.*;
 
 public class TestTotal {
 
 	public static void main(String[] args) {
-		//obtenerInicio(1,2);
-		//obtenerAlumnos(3);
-		addNotas(3);
+		UsuarioDAO uDAO = new UsuarioDAO();
+		
 	}
 
 	public static void obtenerInicio(int idU, int idC) {
@@ -18,7 +19,9 @@ public class TestTotal {
 		UsuarioDAO uDAO = new UsuarioDAO();
 		CursoDAO cDAO = new CursoDAO();
 		NotaDAO nDAO = new NotaDAO();
-		Map<Integer,Float> notas = nDAO.select(idU, idC);
+		Usuario u = new Usuario(1);
+		Curso c = new Curso(1);
+		Map<Integer,Float> notas = nDAO.select(u, c);
 		Float promedio = 0f;
 		
 		Usuario usuario = uDAO.select(idU);

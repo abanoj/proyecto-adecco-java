@@ -3,20 +3,20 @@ package datos;
 import java.sql.*;
 import java.util.*;
 
-import domain.Conexion;
-import domain.Curso;
-import domain.Nota;
+import domain.*;
 
 public class NotaDAO {
 
 	private static final String SQL_SELECT_ONE = "SELECT nota FROM notas WHERE id_alumno = ? AND id_asignatura = ? AND id_curso = ?";
 	private static final String SQL_SELECT_AC = "SELECT id_asignatura, nota FROM notas WHERE id_alumno = ? AND id_curso = ?;";
+	private static final String SQL_SELECT_CA = "SELECT id_alumno, nota FROM notas WHERE id_curso = ? AND id_asignatura = ?;";
+	private static final String SQL_SELECT_AA = "SELECT id_curso, nota FROM notas WHERE id_alumno = ? AND id_asignatura = ?;";
 	private static final String SQL_SELECT_C = "SELECT id_alumno, id_asignatura, nota FROM notas WHERE id_curso = ?;";
 	private static final String SQL_INSERT = "INSERT INTO notas(id_alumno, id_asignatura, id_curso, nota) VALUES(?, ?, ?, ?);";
 	private static final String SQL_UPDATE = "UPDATE notas SET id_alumno = ?, id_asignatura = ?, id_curso = ?, nota = ? WHERE id = ?;";
 	private static final String SQL_DELETE = "DELETE FROM notas WHERE id = ?";
 	
-	public Map<Integer, Float> select(int idAlumno, int idCurso) {
+	public Map<Integer, Float> select(Usuario usuario, Curso curso) {
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -25,8 +25,78 @@ public class NotaDAO {
 		try {
 			conn = Conexion.obtenerConexion();
 			ps = conn.prepareStatement(SQL_SELECT_AC);
-			ps.setInt(1, idAlumno);
-			ps.setInt(2, idCurso);
+			ps.setInt(1, usuario.getId());
+			ps.setInt(2, curso.getId());
+
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				int idA = rs.getInt("id_asignatura");
+				float nota = rs.getFloat("nota");
+				lista.put(idA, nota);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}  finally {
+			try {
+				rs.close();
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return lista;
+	}
+	
+	public Map<Integer, Float> select(Usuario usuario, Asignatura asignatura) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Map<Integer, Float> lista = new HashMap<Integer, Float>();
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(SQL_SELECT_AA);
+			ps.setInt(1, usuario.getId());
+			ps.setInt(2, asignatura.getId());
+
+			rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				int idA = rs.getInt("id_asignatura");
+				float nota = rs.getFloat("nota");
+				lista.put(idA, nota);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}  finally {
+			try {
+				rs.close();
+				ps.close();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return lista;
+	}
+	
+	public Map<Integer, Float> select(Curso curso, Asignatura asignatura) {
+		Connection conn = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		Map<Integer, Float> lista = new HashMap<Integer, Float>();
+		
+		try {
+			conn = Conexion.obtenerConexion();
+			ps = conn.prepareStatement(SQL_SELECT_CA);
+			ps.setInt(1, curso.getId());
+			ps.setInt(2, asignatura.getId());
 
 			rs = ps.executeQuery();
 			
