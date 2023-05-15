@@ -2,16 +2,14 @@ package test;
 
 import java.util.*;
 
-import com.mysql.cj.log.Log;
-
 import domain.*;
 import datos.*;
 
 public class TestTotal {
 
 	public static void main(String[] args) {
-		UsuarioDAO uDAO = new UsuarioDAO();
-		
+		//UsuarioDAO uDAO = new UsuarioDAO();
+		addNotas(10);
 	}
 
 	public static void obtenerInicio(int idU, int idC) {
@@ -90,7 +88,8 @@ public class TestTotal {
 			
 			
 			int idC = random.nextInt(2) + 1;
-			nota = new Nota(idU, idA, idC);
+			notita = random.nextInt(6) + 5;
+			nota = new Nota(idU, idA, idC, notita);
 			nDAO.insert(nota);			
 		}
 	}
